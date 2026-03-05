@@ -1,13 +1,13 @@
-  import { useState } from "react";
+  import { useContext, useState } from "react";
   import "../App.css";
   import Alert from "./Alert";
-import { useNavigate } from "react-router-dom";
+  import { useNavigate } from "react-router-dom";
+  import { AuthContext } from "./AuthContext";
   function Login() {
-
+    const authContext=useContext(AuthContext)
     const [username,setusername]=useState("")
     const [password,setPassword]=useState("")
     const [showPass,setShowPass]=useState(true)
-    const [sucess, setSucess] = useState(false);
     const [danger, setDanger] = useState(false);
     const navigate=useNavigate()
   function setSucessFunc(x){
@@ -60,12 +60,10 @@ import { useNavigate } from "react-router-dom";
 
     function handleSubmit(event){
       event.preventDefault();
-      if(username=="ronie"&&password=="123098"){
-        setSucessFunc(true)
+      if(authContext.loginFunction(username,password)){
         navigate(`/welcome/${username}`)
-        setTimeout(()=>setSucessFunc(false),3000)
       }else{
-          setDangerFunc(true)
+        setDangerFunc(true)
         setTimeout(()=>setDangerFunc(false),3000)
       }
     }
@@ -73,8 +71,8 @@ import { useNavigate } from "react-router-dom";
 
 
     return (
-      <div>
-        <Alert danger={danger} sucess={sucess}/>
+      <div style={{paddingTop:"52px"}}>
+        <Alert danger={danger}/>
 
       <div className="vh-100 d-flex justify-content-center  bg-gradient">
         <form className="card shadow-lg p-5" style={{ width: "28rem", borderRadius: "16px" ,height:"26rem"}} onSubmit={handleSubmit}>
