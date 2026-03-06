@@ -21,7 +21,7 @@ function App() {
       <Route path='/login' element={<Login />}/>
       <Route path='/welcome/:username' element={ <AuthenticatedRoute><Welcome/></AuthenticatedRoute>}/>
       <Route path='/logout' element={ <Logout/>}/>
-      <Route path='/todo' element={<AuthenticatedRoute><Todo/></AuthenticatedRoute>}/>
+      <Route path='/todo/:username' element={<AuthenticatedRoute><Todo/></AuthenticatedRoute>}/>
       <Route path='/*' element={<Error/>}/>
     </Routes>
     </BrowserRouter>

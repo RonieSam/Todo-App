@@ -10,18 +10,10 @@
     const [showPass,setShowPass]=useState(true)
     const [danger, setDanger] = useState(false);
     const navigate=useNavigate()
-  function setSucessFunc(x){
-    if(x==true){
-      setSucess(true);
-      setDanger(false);
-    }else{
-      setSucess(false);
-    }
-  }
+  
   function setDangerFunc(x){
     if(x==true){
       setDanger(true);
-      setSucess(false);
     }else
       setDanger(false);
     }

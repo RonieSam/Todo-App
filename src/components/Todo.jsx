@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect , useState} from "react";
+import { getAllTasks } from "./api/TodoRest";
+import { useParams } from 'react-router-dom'
+
 
 function Todo() {
   const formatDate = (d) => {
@@ -8,15 +11,20 @@ function Todo() {
   const minutes = d.getMinutes().toString().padStart(2, '0');
   return `${month} ${day}, ${hours}:${minutes}`;
 };
-  const todos = [
-    { id: 1, desc: "this is a task" ,date:formatDate(new Date()) ,status:false },
-    { id: 2, desc: "this is a task" ,date:formatDate(new Date()),status:false },
-    { id: 3, desc: "this is a task" ,date:formatDate(new Date()),status:false },
-    { id: 4, desc: "this is a task" ,date:formatDate(new Date()),status:false },
-    { id: 5, desc: "this is a task" ,date:formatDate(new Date()),status:false },
-    { id: 6, desc: "this is a task" ,date:formatDate(new Date()),status:false },
-    { id: 7, desc: "this is a task" ,date:formatDate(new Date()),status:false },
-  ];
+
+
+const [todos,setTodos]=useState([])
+const params=useParams()
+
+useEffect(()=>{
+  refreshTodos();
+})
+
+function refreshTodos(){
+  getAllTasks(params.username)
+                .then((response)=>setTodos(response.data))
+                .catch((err)=>console.log(err))
+}
 
   return (
     
@@ -28,7 +36,7 @@ function Todo() {
                 <li className="list-group-item d-flex justify-content-between align-items-center" key={todo.id}>
           <div className="ms-2 me-auto">
             <div className="fw-bold">{todo.id} {todo.desc}</div>
-            {todo.date}
+            {todo.targetDate}
           </div>
           <span className="h4">
             {" "}

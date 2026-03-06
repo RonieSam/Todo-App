@@ -30,7 +30,7 @@ function Welcome() {
           Stay organized. Stay focused. Get things done.
         </p>
 
-        <Link to="/todo">
+        <Link to={`/todo/${params.username}`}>
           <button className="btn btn-primary btn-lg w-100">
             Get Started
           </button>
