@@ -5,7 +5,7 @@ export default function AuthProvider({children}) {
     const [isAuthenticated,setisAuthenticated]=useState(false)
 
     function loginFunction(username,password){
-      if(username==="ron"&&password==="123"){
+      if(username==="ronie"&&password==="123"){
         setisAuthenticated(true);
         return true;
       }
