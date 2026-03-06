@@ -15,3 +15,7 @@ export const deleteTask=(username,id)=>{
 export const updateTask=(task)=>{
     return apiClient.put(`users/${task.username}/todos/${task.id}`,task)
 }
+
+export const addTask=(task)=>{
+    return apiClient.post(`users/${task.username}/todos`,task)
+}

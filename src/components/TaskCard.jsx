@@ -1,21 +1,36 @@
 import React, { useState } from "react";
-import { deleteTask } from "./api/TodoRest";
+import { addTask, deleteTask } from "./api/TodoRest";
 
-function TaskCard({ task, setTask , refreshTodos,changeTask}) {
-  const [update, setUpdate] = useState(false);
+function TaskCard({ task, setTask , refreshTodos,changeTask,setUpdate,update}) {
 
   function removeTask(username,id){
     deleteTask(username,id)
                   .then(()=>{
-                    setUpdate(false)
+                    setUpdate(0)
                     setTask({})
                     refreshTodos()
                   })
                   .catch((err)=>console.log(err))
-                  .finally(()=>console.log("Done update"))
   }
 
-  
+  function newTask(task){
+
+    addTask(task)
+              .then(()=>{
+                setUpdate(0)
+                setTask({})
+                refreshTodos()
+              })
+              .catch((err)=>console.log(err))
+  }
+
+  function submitButton(){
+    if(update==1){
+      changeTask(task);
+    }else if(update==2){
+      newTask(task)
+    }
+  }
   
   function updateDesc(event){
     setTask({
@@ -47,22 +62,23 @@ function TaskCard({ task, setTask , refreshTodos,changeTask}) {
         <button
           type="button"
           onClick={() => {
-            setTask({});
+            setTask({})
+            setUpdate(0)
           }}
           className="btn-close"
           aria-label="Close"
           style={{ position: "absolute", top: "10px", right: "10px" }}
         ></button>
 
-        {!update && <h3 className="card-title mb-3">{task.desc}</h3>}
+        {update==0 && <h3 className="card-title mb-3">{task.desc}</h3>}
 
-        {update && <input onChange={updateDesc} className="form-control mb-3" value={task.desc} />}
+        {update!=0 && <input onChange={updateDesc} className="form-control mb-3" value={task.desc} />}
 
-        {!update && (
+        {update==0 && (
           <p className="card-text mb-3">Due Date - {task.targetDate}</p>
         )}
 
-        {update && (
+        {update!=0 && (
           <input
             type="date"
             onChange={updateDate}
@@ -71,7 +87,7 @@ function TaskCard({ task, setTask , refreshTodos,changeTask}) {
           />
         )}
 
-        {!update&&<div className="container mt-3">
+        {update==0&&<div className="container mt-3">
       <div className="row g-2">
 
         <div className="col-4">
@@ -84,7 +100,7 @@ function TaskCard({ task, setTask , refreshTodos,changeTask}) {
         </div>
 
         <div className="col-4">
-          <button className="btn btn-primary w-100" onClick={()=>{setUpdate(true)}}>
+          <button className="btn btn-primary w-100" onClick={()=>{setUpdate(1)}}>
             Update
           </button>
         </div>
@@ -97,10 +113,10 @@ function TaskCard({ task, setTask , refreshTodos,changeTask}) {
 
       </div>
     </div> }
-        {update&&
+        {update!=0&&
         <div className="d-flex gap-2 mt-3 ">
           
-              <button className="flex-fill btn btn-success w-100" onClick={()=>{changeTask(task)}}>
+              <button className="flex-fill btn btn-success w-100" onClick={submitButton}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
@@ -114,7 +130,7 @@ function TaskCard({ task, setTask , refreshTodos,changeTask}) {
               </button>
 
             
-              <button className="flex-fill btn btn-danger w-100" onClick={()=>setUpdate(false)}>
+              <button className="flex-fill btn btn-danger w-100" onClick={()=>setUpdate(0)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
