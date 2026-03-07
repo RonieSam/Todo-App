@@ -28,3 +28,7 @@ export const basicAuthenticationProvider=(token)=>{
     })
 }
 
+export const jwtAuthorization=(username,password)=>{
+    return apiClient.post("/authenticate",{username,password})
+}
+

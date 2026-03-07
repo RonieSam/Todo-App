@@ -1,5 +1,5 @@
 import { createContext, useState } from "react"
-import { basicAuthenticationProvider } from "./api/TodoRest"
+import { basicAuthenticationProvider, jwtAuthorization } from "./api/TodoRest"
 import { apiClient } from "./api/ApiClient"
 export const AuthContext=createContext()
 
@@ -19,16 +19,41 @@ export default function AuthProvider({children}) {
     //     return false;
     //   }
     // }
+    // async function loginFunction(username,password){
+    //   const baToken='Basic '+window.btoa(username+':'+password)
+    //   try{
+    //     const response=await basicAuthenticationProvider(baToken)
+    //   if(response.status==200){
+    //     console.log(response.data)
+    //     setisAuthenticated(true)
+    //     setBaToken(baToken)
+    //     apiClient.interceptors.request.use((config)=>{
+    //       config.headers.Authorization=baToken
+    //       return config
+    //     })
+    //     setUsername(username)
+    //     return true
+    //   }
+    //   else {
+    //     setisAuthenticated(false)
+    //     setUsername(null)
+    //     return false;
+    //   }
+    // }
+    // catch(err){
+    //     console.log(err)
+    // }
+    // }
     async function loginFunction(username,password){
-      const baToken='Basic '+window.btoa(username+':'+password)
       try{
-        const response=await basicAuthenticationProvider(baToken)
+        const response=await jwtAuthorization(username,password)
       if(response.status==200){
         console.log(response.data)
+        const jwtToken='Bearer '+response.data.token
         setisAuthenticated(true)
-        setBaToken(baToken)
+        setBaToken(jwtToken)
         apiClient.interceptors.request.use((config)=>{
-          config.headers.Authorization=baToken
+          config.headers.Authorization=jwtToken
           return config
         })
         setUsername(username)
