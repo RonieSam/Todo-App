@@ -43,7 +43,7 @@ public class TaskWebServices {
 	
 	
 	public ResponseEntity<String> addTask(Task t){
-		repository.save(new Task(id,t.getUsername(),t.getDesc(),t.getTargetDate(),t.isDone()));
+		repository.save(new Task(id++,t.getUsername(),t.getDesc(),t.getTargetDate(),t.isDone()));
 		return ResponseEntity
 				.status(200)
 				.body("Task has been successfully created");

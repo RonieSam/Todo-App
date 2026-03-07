@@ -16,6 +16,13 @@ public class Task {
 	boolean done;
 	
 	
+	@Override
+	public String toString() {
+		return "Task [id=" + id + ", username=" + username + ", desc=" + desc + ", targetDate=" + targetDate + ", done="
+				+ done + "]";
+	}
+
+
 	public Task() {
 		
 	}

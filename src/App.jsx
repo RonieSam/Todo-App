@@ -20,7 +20,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Login />}/>
       <Route path='/login' element={<Login />}/>
-      <Route path='/welcome/:username' element={ <AuthenticatedRoute><Welcome/></AuthenticatedRoute>}/>
+      <Route path='/welcome' element={ <AuthenticatedRoute><Welcome/></AuthenticatedRoute>}/>
       <Route path='/logout' element={ <Logout/>}/>
       <Route path='/todo' element={<AuthenticatedRoute><Todo/></AuthenticatedRoute>}/>
       <Route path='/*' element={<Error/>}/>

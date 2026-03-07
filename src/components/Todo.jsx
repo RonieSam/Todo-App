@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { getAllTasks } from "./api/TodoRest";
 import { useParams } from "react-router-dom";
 import TaskCard from "./taskCard";
+import UpdateTask from "./UpdateTask";
 import { updateTask } from "./api/TodoRest";
 import Alert from "./Alert";
 import { AuthContext } from "./AuthContext";
@@ -13,12 +14,17 @@ function Todo() {
   const [alertType,setAlertType]=useState("");
   const [alertMsg,setAlertMsg]=useState("");
   const authContext=useContext(AuthContext)
+
+
   useEffect(() => {
     refreshTodos();
   }, [authContext.username]);
 
   function refreshTodos() {
+
+
     getAllTasks(authContext.username)
+
       .then((response) => setTodos(response.data))
       .catch((err) => console.log(err));
   }
@@ -26,7 +32,6 @@ function Todo() {
   function changeTask(updatedTask) {
     updateTask(updatedTask)
       .then((respnse) => {
-        console.log(respnse.data)
         setUpdate(0)
         refreshTodos();
       })
@@ -59,7 +64,7 @@ function Todo() {
       <Alert type={alertType} msg={alertMsg}/>
       {Object.keys(task).length != 0 && (
         <div className="overlay-background">
-          <TaskCard
+          {update==0&&<TaskCard
             setTask={setTask}
             task={task}
             refreshTodos={refreshTodos}
@@ -68,7 +73,17 @@ function Todo() {
             setUpdate={setUpdate}
             setAlertType={setAlertType}
             setAlertMsg={setAlertMsg}
-          />
+          />}
+          {update!=0&&<UpdateTask
+            setTask={setTask}
+            task={task}
+            refreshTodos={refreshTodos}
+            changeTask={changeTask}
+            update={update}
+            setUpdate={setUpdate}
+            setAlertType={setAlertType}
+            setAlertMsg={setAlertMsg}
+          />}
         </div>
       )}
       <div className="container mt-3">

@@ -57,10 +57,10 @@ import { checkOnline } from "./api/TodoRest";
       }
     }
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
       event.preventDefault();
-      if(authContext.loginFunction(username,password)){
-        navigate(`/welcome/${username}`)
+      if(await authContext.loginFunction(username,password)==true){
+        navigate(`/welcome`)
       }else{
         setDangerFunc(true)
         setTimeout(()=>setDangerFunc(false),3000)

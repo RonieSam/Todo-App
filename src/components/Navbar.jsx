@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
+
 function Navbar() {
-  const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext)
+  const navigate=useNavigate()
   function handleLogout() {
     authContext.logoutFunction()
+    navigate("/logout")
   }
   return (
     <div>
@@ -14,7 +17,7 @@ function Navbar() {
         data-bs-theme="light"
       >
         <div className="container-fluid">
-          <Link className="navbar-brand fs-4 fw-bold text-black" to="/welcome/Ronie">
+          <Link className="navbar-brand fs-4 fw-bold text-black" to="/welcome">
             ToDoList
           </Link>
           <button

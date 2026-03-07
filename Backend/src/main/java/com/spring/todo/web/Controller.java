@@ -26,9 +26,14 @@ public class Controller {
 	
 	
 	
-	@GetMapping(path="/users/todo")
+	@GetMapping(path="/health")
 	public String todo() {
-		return "Welcome to ToDo";
+		return "Success";
+	}
+	
+	@GetMapping(path="/basicauth")
+	public String basicAuth() {
+		return "Sucess";
 	}
 	
 	@GetMapping(path="users/{username}/todos")
@@ -45,6 +50,7 @@ public class Controller {
 	@DeleteMapping(path="users/{username}/todos/{id}")
 	public ResponseEntity<String> deleteTask(@PathVariable String username, @PathVariable Integer id) throws TaskNotFoundException{
 		return service.deleteById(username,id);
+		
 	}
 	
 	@PostMapping(path="users/{username}/todos")

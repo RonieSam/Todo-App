@@ -1,8 +1,4 @@
-import axios from "axios"
-
-const apiClient=axios.create({
-    baseURL:"http://localhost:8080"
-})
+import {apiClient} from "./ApiClient"
 
 export const getAllTasks=(username)=>{
     return apiClient.get(`users/${username}/todos`)
@@ -21,5 +17,14 @@ export const addTask=(task)=>{
 }
 
 export const checkOnline=()=>{
-    return apiClient.get(`users/todo`)
+    return apiClient.get(`/health`)
 }
+
+export const basicAuthenticationProvider=(token)=>{
+    return apiClient.get("/basicauth",{
+        headers:{
+            Authorization:token
+        }
+    })
+}
+
