@@ -19,3 +19,7 @@ export const updateTask=(task)=>{
 export const addTask=(task)=>{
     return apiClient.post(`users/${task.username}/todos`,task)
 }
+
+export const checkOnline=()=>{
+    return apiClient.get(`users/todo`)
+}

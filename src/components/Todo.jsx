@@ -1,29 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getAllTasks } from "./api/TodoRest";
 import { useParams } from "react-router-dom";
 import TaskCard from "./taskCard";
 import { updateTask } from "./api/TodoRest";
+import Alert from "./Alert";
+import { AuthContext } from "./AuthContext";
 
 function Todo() {
   const [todos, setTodos] = useState([]);
   const [task, setTask] = useState({});
   const [update, setUpdate] = useState(0);
-
-  const params = useParams();
-
+  const [alertType,setAlertType]=useState("");
+  const [alertMsg,setAlertMsg]=useState("");
+  const authContext=useContext(AuthContext)
   useEffect(() => {
     refreshTodos();
-  }, [params.username]);
+  }, [authContext.username]);
 
   function refreshTodos() {
-    getAllTasks(params.username)
+    getAllTasks(authContext.username)
       .then((response) => setTodos(response.data))
       .catch((err) => console.log(err));
   }
 
   function changeTask(updatedTask) {
     updateTask(updatedTask)
-      .then(() => {
+      .then((respnse) => {
+        console.log(respnse.data)
+        setUpdate(0)
         refreshTodos();
       })
       .catch((err) => console.log(err));
@@ -31,7 +35,7 @@ function Todo() {
 
   function addNewTaskButton(){
     const newTask={
-      username:params.username,
+      username:authContext.username,
       desc:"",
       targetDate:"",
       done:false
@@ -51,7 +55,8 @@ function Todo() {
   }
 
   return (
-    <>
+    <> 
+      <Alert type={alertType} msg={alertMsg}/>
       {Object.keys(task).length != 0 && (
         <div className="overlay-background">
           <TaskCard
@@ -61,10 +66,12 @@ function Todo() {
             changeTask={changeTask}
             update={update}
             setUpdate={setUpdate}
+            setAlertType={setAlertType}
+            setAlertMsg={setAlertMsg}
           />
         </div>
       )}
-      <div className="container mt-5">
+      <div className="container mt-3">
         <div className="card shadow-lg p-4" style={{ position: "relative" }}>
           <button
             className="btn btn-primary d-flex justify-content-center align-items-center"
@@ -81,7 +88,7 @@ function Todo() {
               <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
             </svg>
           </button>
-          <h2 className="text-center mb-4">{params.username}'s Todo List</h2>
+          <h2 className="text-center mb-4">{authContext.username}'s Todo List</h2>
 
           <ul className="list-group">
             {todos.map((todo) => (

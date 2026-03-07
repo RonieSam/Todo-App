@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import { addTask, deleteTask } from "./api/TodoRest";
 
-function TaskCard({ task, setTask , refreshTodos,changeTask,setUpdate,update}) {
+function TaskCard({ task, setTask , refreshTodos,changeTask,setUpdate,update,setAlertType,setAlertMsg}) {
 
   function removeTask(username,id){
     deleteTask(username,id)
-                  .then(()=>{
+                  .then((response)=>{
                     setUpdate(0)
                     setTask({})
                     refreshTodos()
+                    setAlertMsg(response.data)
+                    setAlertType("success")
+                    setTimeout(()=>{
+                      setAlertType("")
+                      setAlertMsg("")
+                    }
+                      ,3000)
+
                   })
                   .catch((err)=>console.log(err))
   }
@@ -16,10 +24,16 @@ function TaskCard({ task, setTask , refreshTodos,changeTask,setUpdate,update}) {
   function newTask(task){
 
     addTask(task)
-              .then(()=>{
+              .then((response)=>{
                 setUpdate(0)
                 setTask({})
                 refreshTodos()
+                setAlertMsg(response.data)
+                setAlertType("success")
+                setTimeout(()=>{
+                setAlertType("")
+                setAlertMsg("")
+                },3000)
               })
               .catch((err)=>console.log(err))
   }
@@ -71,20 +85,8 @@ function TaskCard({ task, setTask , refreshTodos,changeTask,setUpdate,update}) {
         ></button>
 
         {update==0 && <h3 className="card-title mb-3">{task.desc}</h3>}
-
-        {update!=0 && <input onChange={updateDesc} className="form-control mb-3" value={task.desc} />}
-
         {update==0 && (
           <p className="card-text mb-3">Due Date - {task.targetDate}</p>
-        )}
-
-        {update!=0 && (
-          <input
-            type="date"
-            onChange={updateDate}
-            className="form-control mb-3"
-            value={task.targetDate}
-          />
         )}
 
         {update==0&&<div className="container mt-3">
@@ -113,6 +115,20 @@ function TaskCard({ task, setTask , refreshTodos,changeTask,setUpdate,update}) {
 
       </div>
     </div> }
+
+        
+        {update!=0 && <input onChange={updateDesc} className="form-control mb-3" value={task.desc} />}
+
+
+        {update!=0 && (
+          <input
+            type="date"
+            onChange={updateDate}
+            className="form-control mb-3"
+            value={task.targetDate}
+          />
+        )}
+
         {update!=0&&
         <div className="d-flex gap-2 mt-3 ">
           

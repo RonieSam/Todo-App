@@ -1,23 +1,30 @@
-  import { useContext, useState } from "react";
+  import { useContext, useEffect, useState } from "react";
   import "../App.css";
   import Alert from "./Alert";
   import { useNavigate } from "react-router-dom";
   import { AuthContext } from "./AuthContext";
+import { checkOnline } from "./api/TodoRest";
+
   function Login() {
     const authContext=useContext(AuthContext)
     const [username,setusername]=useState("")
     const [password,setPassword]=useState("")
     const [showPass,setShowPass]=useState(true)
-    const [danger, setDanger] = useState(false);
+    const [danger, setDanger] = useState("");
     const navigate=useNavigate()
   
   function setDangerFunc(x){
     if(x==true){
-      setDanger(true);
+      setDanger("danger");
     }else
-      setDanger(false);
+      setDanger("");
     }
   
+  useEffect(()=>{
+    checkOnline()
+            .then((response)=>console.log(response))
+            .catch((err)=>navigate("/offline"))
+  },[])
 
     function updateusername(event){
       setusername(event.target.value)
@@ -63,8 +70,8 @@
 
 
     return (
-      <div style={{paddingTop:"52px"}}>
-        <Alert danger={danger}/>
+      <div>
+        <Alert type={danger} msg={"Wrong Credentials"}/>
 
       <div className="vh-100 d-flex justify-content-center  bg-gradient">
         <form className="card shadow-lg p-5" style={{ width: "28rem", borderRadius: "16px" ,height:"26rem"}} onSubmit={handleSubmit}>

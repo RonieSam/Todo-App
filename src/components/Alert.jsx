@@ -1,10 +1,15 @@
 
-function Alert({ danger = false }) {
+function Alert({ type="",msg}) {
   return (
-    <div className="container-fluid p-0" style={{ height: "80px" }}>
-      {danger&& (
+    <div className="container-fluid p-0" style={{ height: "80px",marginTop:"52px" }}>
+      {type==="danger" && (
         <div className="alert alert-danger" role="alert">
-          Wrong Credentials
+          {msg}
+        </div>
+      )}
+      {type==="success" && (
+        <div className="alert alert-success" role="alert">
+          {msg}
         </div>
       )}
       

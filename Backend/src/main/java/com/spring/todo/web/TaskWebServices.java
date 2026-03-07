@@ -38,7 +38,7 @@ public class TaskWebServices {
 		repository.deleteByUsernameAndId(username, id);
 		return ResponseEntity
 				.status(200)
-				.body("The Task has been deleted with task id-"+id);
+				.body("Task has been successfully deleted");
 	}
 	
 	
@@ -46,7 +46,7 @@ public class TaskWebServices {
 		repository.save(new Task(id,t.getUsername(),t.getDesc(),t.getTargetDate(),t.isDone()));
 		return ResponseEntity
 				.status(200)
-				.body("The Task has been created with task id-"+id++);
+				.body("Task has been successfully created");
 	}
 	
 	@Transactional
@@ -57,7 +57,7 @@ public class TaskWebServices {
 		task.setDone(t.isDone());
 		return ResponseEntity
 		.status(200)
-		.body("The Task has been updated with task id-"+t.getId());
+		.body("The Task has been successfully updated");
 	}
 
 }

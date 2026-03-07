@@ -24,7 +24,9 @@ public class Controller {
 	@Autowired
 	TaskWebServices service;
 	
-	@GetMapping(path="/todo")
+	
+	
+	@GetMapping(path="/users/todo")
 	public String todo() {
 		return "Welcome to ToDo";
 	}
